@@ -24,6 +24,7 @@
  */
 #define WIZNET_ANY_INT_GPIOS                                                                       \
 	(DT_ANY_COMPAT_HAS_PROP_STATUS_OKAY(wiznet_w5500, int_gpios) ||                            \
+	 DT_ANY_COMPAT_HAS_PROP_STATUS_OKAY(wiznet_w5100s, int_gpios) ||                           \
 	 DT_ANY_COMPAT_HAS_PROP_STATUS_OKAY(wiznet_w6100, int_gpios))
 
 #define WIZNET_S0_CR_OPEN  0x01
