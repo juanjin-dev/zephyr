@@ -87,28 +87,5 @@
 
 /* Delay for PHY write/read operations (25.6 us) */
 #define W5500_PHY_ACCESS_DELAY		26U
-struct w5500_config {
-	struct spi_dt_spec spi;
-#if DT_ANY_INST_HAS_PROP_STATUS_OKAY(int_gpios)
-	struct gpio_dt_spec interrupt;
-#endif
-	struct gpio_dt_spec reset;
-	struct net_eth_mac_config mac_cfg;
-	const struct device *phy_dev;
-};
-
-struct w5500_runtime {
-	struct net_if *iface;
-
-	K_KERNEL_STACK_MEMBER(thread_stack,
-			      CONFIG_ETH_W5500_RX_THREAD_STACK_SIZE);
-	struct k_thread thread;
-	uint8_t mac_addr[6];
-	struct gpio_callback gpio_cb;
-	struct k_sem tx_sem;
-	struct k_sem int_sem;
-	struct phy_link_state state;
-	uint8_t buf[NET_ETH_MAX_FRAME_SIZE];
-};
 
 #endif /*_W5500_*/
