@@ -67,6 +67,7 @@ menuconfig ETH_W6100
 	bool "W6100 Ethernet Controller"
 	default y
 	depends on DT_HAS_WIZNET_W6100_ENABLED
+	select ETH_WIZNET
 	select SPI
 	help
 	  W6100 Stand-Alone Ethernet Controller
@@ -96,6 +97,15 @@ config ETH_W6100_TIMEOUT
 	  Given timeout in milliseconds. Maximum amount of time
 	  that the driver will wait from the IP stack to get
 	  a memory buffer before the Ethernet frame is dropped.
+
+config ETH_W6100_POLL_PERIOD
+	int "W6100 polling period in milliseconds"
+	depends on ETH_W6100
+	default 10
+	help
+	  Polling interval in milliseconds for RX data and link status
+	  when operating in polling mode (no int-gpios defined in
+	  devicetree).
 
 config ETH_W6100_MONITOR_PERIOD
 	int "Monitor task execution period"

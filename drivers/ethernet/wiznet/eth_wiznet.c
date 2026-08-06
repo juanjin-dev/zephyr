@@ -210,10 +210,14 @@ static uint8_t wiznet_check_for_ir(const struct device *dev)
 	struct wiznet_runtime *ctx = dev->data;
 	uint8_t ir;
 
+	if (cfg->ops->clear_pending != NULL) {
+		cfg->ops->clear_pending(dev);
+	}
+
 	wiznet_read(dev, cfg->regs->s0_ir, &ir, 1);
 
 	if (ir != 0U) {
-		wiznet_write(dev, cfg->regs->s0_ir, &ir, 1);
+		wiznet_write(dev, cfg->regs->s0_irclr, &ir, 1);
 		LOG_DBG("IR received");
 
 		if ((ir & WIZNET_S0_IR_SENDOK) != 0U) {
@@ -476,7 +480,7 @@ int wiznet_init(const struct device *dev)
 		}
 
 		gpio_pin_set_dt(&cfg->reset, 1);
-		k_usleep(WIZNET_RESET_PULSE_US);
+		k_usleep(cfg->reset_pulse_us);
 		gpio_pin_set_dt(&cfg->reset, 0);
 		k_msleep(cfg->reset_delay_ms);
 	}

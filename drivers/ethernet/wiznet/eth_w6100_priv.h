@@ -61,6 +61,7 @@
 #define S0_CR_SEND			0x20 /* SEND command */
 #define S0_CR_RECV			0x40 /* RECV command */
 #define W6100_S0_IR			(W6100_S0_REGS + W6100_Sn_IR)
+#define W6100_S0_IRCLR                  (W6100_S0_IR + 8)
 #define W6100_SLIR			0x2102
 #define W6100_SLIRCLR			0x2128
 #define PHYSR_LINK_UP			0x01
@@ -96,26 +97,5 @@
 
 /* Delay for PHY write/read operations (25.6 us) */
 #define W6100_PHY_ACCESS_DELAY		26U
-struct w6100_config {
-	struct spi_dt_spec spi;
-	struct gpio_dt_spec interrupt;
-	struct gpio_dt_spec reset;
-	struct net_eth_mac_config mac_cfg;
-	const struct device *phy_dev;
-};
-
-struct w6100_runtime {
-	struct net_if *iface;
-
-	K_KERNEL_STACK_MEMBER(thread_stack,
-			      CONFIG_ETH_W6100_RX_THREAD_STACK_SIZE);
-	struct k_thread thread;
-	uint8_t mac_addr[6];
-	struct gpio_callback gpio_cb;
-	struct k_sem tx_sem;
-	struct k_sem int_sem;
-	struct phy_link_state state;
-	uint8_t buf[NET_ETH_MAX_FRAME_SIZE];
-};
 
 #endif /*_W6100_*/

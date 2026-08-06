@@ -22,7 +22,9 @@
 /* Controllers are listed here as they move onto the core: struct wiznet_config
  * has to have the same layout in every translation unit that sees it.
  */
-#define WIZNET_ANY_INT_GPIOS DT_ANY_COMPAT_HAS_PROP_STATUS_OKAY(wiznet_w5500, int_gpios)
+#define WIZNET_ANY_INT_GPIOS                                                                       \
+	(DT_ANY_COMPAT_HAS_PROP_STATUS_OKAY(wiznet_w5500, int_gpios) ||                            \
+	 DT_ANY_COMPAT_HAS_PROP_STATUS_OKAY(wiznet_w6100, int_gpios))
 
 #define WIZNET_S0_CR_OPEN  0x01
 #define WIZNET_S0_CR_CLOSE 0x10
@@ -37,7 +39,6 @@
 #define WIZNET_CMD_TIMEOUT_MS    100
 #define WIZNET_CMD_POLL_DELAY_US 26U
 #define WIZNET_TX_TIMEOUT_MS     10
-#define WIZNET_RESET_PULSE_US    500
 
 struct wiznet_regs {
 	uint32_t shar;
@@ -45,6 +46,7 @@ struct wiznet_regs {
 	uint32_t s0_mr;
 	uint32_t s0_cr;
 	uint32_t s0_ir;
+	uint32_t s0_irclr;
 	uint32_t s0_tx_wr;
 	uint32_t s0_rx_rsr;
 	uint32_t s0_rx_rd;
@@ -63,6 +65,8 @@ struct wiznet_chip_ops {
 	void (*set_macaddr)(const struct device *dev);
 	void (*update_link_status)(const struct device *dev);
 	void (*memory_configure)(const struct device *dev);
+	/* optional, for parts with pending flags outside the socket registers */
+	void (*clear_pending)(const struct device *dev);
 };
 
 struct wiznet_config {
@@ -82,6 +86,7 @@ struct wiznet_config {
 	uint16_t rx_timeout_ms;
 	uint16_t poll_period_ms;
 	uint16_t monitor_period_ms;
+	uint16_t reset_pulse_us;
 	uint16_t reset_delay_ms;
 };
 
@@ -135,7 +140,7 @@ int wiznet_init(const struct device *dev);
 #endif
 
 #define WIZNET_DEVICE_DEFINE(node, init_fn, api, phy_api, chip_ops, chip_regs, stack_size, prio,   \
-			     rx_timeout, poll_period, monitor_period, reset_delay)                 \
+			     rx_timeout, poll_period, monitor_period, reset_pulse, reset_delay)    \
 	DEVICE_DECLARE(wiznet_phy_##node);                                                         \
 	static K_KERNEL_STACK_DEFINE(wiznet_stack_##node, stack_size);                             \
 	static struct wiznet_runtime wiznet_runtime_##node = {                                     \
@@ -156,6 +161,7 @@ int wiznet_init(const struct device *dev);
 		.rx_timeout_ms = rx_timeout,                                                       \
 		.poll_period_ms = poll_period,                                                     \
 		.monitor_period_ms = monitor_period,                                               \
+		.reset_pulse_us = reset_pulse,                                                     \
 		.reset_delay_ms = reset_delay,                                                     \
 	};                                                                                         \
 	ETH_NET_DEVICE_DT_DEFINE(node, init_fn, NULL, &wiznet_runtime_##node,                      \
