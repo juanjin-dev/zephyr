@@ -82,6 +82,14 @@
 				reset-gpios = <&test_gpio 0 0>;
 			};
 
+			test_spi_w6300: w6300@a {
+				compatible = "wiznet,w6300";
+				reg = <0xa>;
+				spi-max-frequency = <0>;
+				int-gpios = <&test_gpio 0 0>;
+				reset-gpios = <&test_gpio 0 0>;
+			};
+
 			test_spi_adin1110: adin1110@3 {
 				compatible = "adi,adin1110";
 				reg = <0x3>;
