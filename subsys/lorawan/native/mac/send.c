@@ -722,17 +722,34 @@ static int select_data_channel_wait(struct lwan_ctx *ctx, uint8_t dr,
 	int32_t delay_ms;
 	int ret;
 
-	do {
-		ret = region->select_data_channel(ctx->channels,
-						  ctx->channel_count,
-						  dr, freq, &delay_ms);
-		if (ret == -ENOBUFS) {
-			LOG_INF("Duty cycle: waiting %d ms", delay_ms);
-			k_msleep(delay_ms);
-		}
-	} while (ret == -ENOBUFS);
+	for (int attempt = 0; attempt < CONFIG_LORAWAN_NATIVE_LBT_MAX_ATTEMPTS;
+	     attempt++) {
+		do {
+			ret = region->select_data_channel(ctx->channels,
+							  ctx->channel_count,
+							  dr, freq,
+							  &delay_ms);
+			if (ret == -ENOBUFS) {
+				LOG_INF("Duty cycle: waiting %d ms", delay_ms);
+				k_msleep(delay_ms);
+			}
+		} while (ret == -ENOBUFS);
 
-	return ret;
+		if (ret != 0) {
+			return ret;
+		}
+
+		/* Selection is random, so a busy channel is worth retrying. */
+		ret = mac_lbt_check(ctx, *freq, dr);
+		if (ret != -EBUSY) {
+			return ret;
+		}
+	}
+
+	LOG_WRN("LBT: no clear channel after %d attempts",
+		CONFIG_LORAWAN_NATIVE_LBT_MAX_ATTEMPTS);
+
+	return -EBUSY;
 }
 
 static void send_post_tx(struct lwan_ctx *ctx, void *user_data)

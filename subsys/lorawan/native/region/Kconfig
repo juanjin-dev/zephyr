@@ -16,6 +16,15 @@ config LORAWAN_NATIVE_DUTY_CYCLE
 	  Disable this option for testing or when duty cycle
 	  enforcement is handled externally.
 
+config LORAWAN_NATIVE_LBT_MAX_ATTEMPTS
+	int "Maximum listen-before-talk attempts"
+	default 8
+	help
+	  How many channels to try before giving up on finding a clear one,
+	  in regions that listen before they talk rather than hold to a duty
+	  cycle. Channel selection is random, so each attempt is a fresh
+	  draw. Regions without LBT never spend more than one attempt.
+
 config LORAWAN_NATIVE_MAX_CHANNELS
 	int
 	default 16
