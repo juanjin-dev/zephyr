@@ -25,6 +25,12 @@ enum lwan_flag {
 
 #define LWAN_MAX_CHANNELS	CONFIG_LORAWAN_NATIVE_MAX_CHANNELS
 
+/*
+ * A LinkADRAns costs a CID and one byte, so this is as many as the 15-byte
+ * FOpts field can carry back in one uplink.
+ */
+#define LWAN_MAX_LINK_ADR_ANS	7
+
 struct lwan_session {
 	/* Device address assigned during join */
 	uint32_t dev_addr;
@@ -72,6 +78,15 @@ struct lwan_mac_state {
 	bool link_check_ans_valid;
 	uint8_t link_check_margin;
 	uint8_t link_check_gw_cnt;
+
+	/* UL: one answer per LinkADRReq of the block just received, held
+	 * until an uplink carries them. The network counts them, so the
+	 * count matters as much as the contents.
+	 */
+	uint8_t link_adr_ans[LWAN_MAX_LINK_ADR_ANS];
+	uint8_t link_adr_ans_count;
+	/* UL: how many of them the frame being built carries */
+	uint8_t ul_built_link_adr_ans;
 };
 
 struct lwan_ctx {
