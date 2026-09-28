@@ -485,7 +485,10 @@ static int mac_process_dl_payload(struct lwan_ctx *ctx,
 				  const struct dl_frame_info *frame_info,
 				  int16_t rssi, int8_t snr)
 {
-	struct dl_payload_info payload;
+	/* Zeroed because the compiler cannot see that the short-circuit
+	 * below leaves the descriptor unread when the parse fails.
+	 */
+	struct dl_payload_info payload = {0};
 
 	if (!mac_get_dl_payload_info(rx_buf, rx_len, frame_info->fopts_len,
 				     &payload) ||
