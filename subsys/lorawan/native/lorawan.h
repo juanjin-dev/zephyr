@@ -63,6 +63,14 @@ struct lwan_mac_state {
 	 */
 	bool ul_dwell_time;
 	bool dl_dwell_time;
+	/* EIRP ceiling a TxParamSetupReq imposed, in dBm; 0 until one does,
+	 * which the command cannot ask for since its table starts at 8 dBm.
+	 */
+	int8_t max_eirp_dbm;
+
+	/* UL: a TxParamSetupAns is owed and should ride on the next uplink */
+	bool tx_param_setup_ans_pending;
+	bool ul_built_tx_param_setup_ans;
 
 	/* UL: a LinkCheckReq is queued and should ride on the next uplink */
 	bool link_check_pending;

@@ -101,6 +101,11 @@ int mac_do_tx_rx(struct lwan_ctx *ctx, const struct mac_tx_params *params)
 		return ret;
 	}
 
+	/* A TxParamSetupReq can only lower what the region already allows. */
+	if (ctx->mac.max_eirp_dbm != 0) {
+		tx_power = MIN(tx_power, ctx->mac.max_eirp_dbm);
+	}
+
 	LOG_INF("TX: freq=%u dr=%u power=%d", params->tx_freq, params->tx_dr_idx,
 		tx_power);
 
