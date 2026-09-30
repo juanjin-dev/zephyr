@@ -1188,6 +1188,10 @@ New Boards
 
   * :zephyr:board:`qemu_cortex_a72` (``qemu_cortex_a72``)
 
+* RAKwireless Technology Limited
+
+  * :zephyr:board:`rak11721` (``rak11721``)
+
 * Radxa
 
   * :zephyr:board:`rock_3b` (``rock_3b``)

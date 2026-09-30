@@ -249,6 +249,14 @@ Boards
   ``-b stm32mp157c_dk2`` is deprecated and now maps to
   ``stm32mp157x_dk2/stm32mp157cxx``.
 
+* The RAKwireless ``rak11720`` board is renamed to :zephyr:board:`rak11722`. It
+  was named after the WisDuo stamp module it carries rather than the board it
+  describes, which is the RAK11722 WisBlock Core Module. The other carrier for
+  the same module is the new :zephyr:board:`rak11721` Breakout Board.
+  :file:`boards/deprecated.cmake` keeps ``-b rak11720`` working with a warning,
+  but out-of-tree code testing ``CONFIG_BOARD_RAK11720`` must switch to
+  ``CONFIG_BOARD_RAK11722``.
+
 * The Nordic sysbuild Kconfig option ``SB_CONFIG_NRF_HALTIUM_GENERATE_UICR``
   has been renamed to :kconfig:option:`SB_CONFIG_NRF_GENERATE_UICR`.
   Update sysbuild configurations to use the new name.
