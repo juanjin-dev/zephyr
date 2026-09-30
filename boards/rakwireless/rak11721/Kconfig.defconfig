@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 RAKwireless Technology Limited
+
+if BOARD_RAK11721
+
+config SYS_CLOCK_HW_CYCLES_PER_SEC
+	default 32768 if AMBIQ_STIMER_TIMER
+
+endif # BOARD_RAK11721
