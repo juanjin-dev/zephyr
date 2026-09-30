@@ -121,3 +121,6 @@ set(w6300_evb_pico2/rp2350a/m33_DEPRECATED
 set(stm32mp157c_dk2_DEPRECATED
     stm32mp157x_dk2/stm32mp157cxx
 )
+set(rak11720_DEPRECATED
+    rak11722
+)

@@ -32,4 +32,20 @@
 			pinmux = <M0SCK_P5>, <M0MISO_P6>, <M0MOSI_P7>;
 		};
 	};
+
+	adc0_default: adc0_default {
+		group1 {
+			pinmux = <ADCD0PSE8_P13>,
+				 <ADCSE5_P33>,
+				 <ADCSE3_P31>,
+				 <ADCD0NSE9_P12>;
+			drive-strength = "0.1";
+		};
+	};
+
+	pwm3_default: pwm3_default {
+		group1 {
+			pinmux = <CTIM13_P31>;
+		};
+	};
 };

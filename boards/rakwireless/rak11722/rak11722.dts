@@ -6,12 +6,12 @@
 
 /dts-v1/;
 #include <rakwireless/rak11720.dtsi>
-#include "rak11720-pinctrl.dtsi"
+#include "rak11722-pinctrl.dtsi"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
 / {
-	model = "RAKwireless RAK11720 WisBlock LPWAN Module";
-	compatible = "ambiq,rak11720";
+	model = "RAK11722 WisBlock Core Module";
+	compatible = "rakwireless,rak11722";
 
 	chosen {
 		zephyr,itcm = &tcm;
@@ -160,3 +160,20 @@
 		status = "okay";
 	};
 };
+
+&timer3 {
+	pwm3: pwm {
+		pinctrl-0 = <&pwm3_default>;
+		pinctrl-names = "default";
+		timer-segment = "SEGMENT_B";
+		pwm-type = "PWM_REPEAT";
+	};
+};
+
+&adc0 {
+	pinctrl-0 = <&adc0_default>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+#include "wisblock.dtsi"
