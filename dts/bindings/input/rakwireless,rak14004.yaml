@@ -1,0 +1,85 @@
+# Copyright (c) 2026 RAKwireless Technology Limited
+# SPDX-License-Identifier: Apache-2.0
+
+title: RAKwireless RAK14004 WisBlock Keypad Module
+
+description: |
+  Scans a passive key matrix and reports the pressed keys over I2C. The matrix
+  is a separate module plugged into the keypad connector, so its size is a
+  property of the pair rather than of the RAK14004 alone: a RAK14009 is 3 by 3,
+  a RAK14010 is 3 by 4 and a RAK14011 is 4 by 4.
+
+  The driver reports row and column events, which an input-keymap child turns
+  into key codes.
+
+  The module runs its own firmware and answers on the bus about 1.7 seconds
+  after it is powered, so a host that switches its supply sees nothing on the
+  bus for that long. Nothing is lost by it: the module drives the interrupt
+  line once it is up, and the driver reads the matrix only then.
+
+compatible: "rakwireless,rak14004"
+
+include: [i2c-device.yaml]
+
+properties:
+  int-gpios:
+    type: phandle-array
+    required: true
+    description: |
+      Line the module asserts when the set of pressed keys changes. The module
+      holds it low and lets it rise, so it needs a pull-up to reach a valid
+      high: without one the assertion is never seen.
+
+  reset-gpios:
+    type: phandle-array
+    description: |
+      Reset line, held inactive while the driver is loaded. The module is not
+      reset on purpose: it is already running by the time anything reads it,
+      and resetting it would cost another power-up wait.
+
+  row-size:
+    type: int
+    required: true
+    min: 1
+    max: 8
+    description: Number of rows the attached key matrix has.
+
+  col-size:
+    type: int
+    required: true
+    min: 1
+    max: 8
+    description: Number of columns the attached key matrix has.
+
+examples:
+  - |
+    #include <zephyr/dt-bindings/gpio/gpio.h>
+    #include <zephyr/dt-bindings/input/input-event-codes.h>
+    #include <zephyr/dt-bindings/input/keymap.h>
+
+    &i2c0 {
+        keypad: keypad@5f {
+            compatible = "rakwireless,rak14004";
+            reg = <0x5f>;
+            int-gpios = <&gpio0 1 (GPIO_PULL_UP | GPIO_ACTIVE_HIGH)>;
+            row-size = <3>;
+            col-size = <3>;
+
+            keymap {
+                compatible = "input-keymap";
+                keymap = <
+                    MATRIX_KEY(0, 0, INPUT_KEY_1)
+                    MATRIX_KEY(0, 1, INPUT_KEY_2)
+                    MATRIX_KEY(0, 2, INPUT_KEY_3)
+                    MATRIX_KEY(1, 0, INPUT_KEY_4)
+                    MATRIX_KEY(1, 1, INPUT_KEY_5)
+                    MATRIX_KEY(1, 2, INPUT_KEY_6)
+                    MATRIX_KEY(2, 0, INPUT_KEY_7)
+                    MATRIX_KEY(2, 1, INPUT_KEY_8)
+                    MATRIX_KEY(2, 2, INPUT_KEY_9)
+                >;
+                row-size = <3>;
+                col-size = <3>;
+            };
+        };
+    };

@@ -361,6 +361,24 @@
 				threshold-windows = "narrow", "wide", "narrow";
 				threshold-midpoints = <3 0 7>;
 			};
+
+			rak14004@11 {
+				compatible = "rakwireless,rak14004";
+				reg = <0x11>;
+				int-gpios = <&test_gpio 0 (GPIO_PULL_UP | GPIO_ACTIVE_HIGH)>;
+				reset-gpios = <&test_gpio 1 GPIO_ACTIVE_LOW>;
+				row-size = <3>;
+				col-size = <4>;
+
+				keymap {
+					compatible = "input-keymap";
+					row-size = <3>;
+					col-size = <4>;
+					keymap = <MATRIX_KEY(0, 0, INPUT_KEY_1)
+						  MATRIX_KEY(1, 1, INPUT_KEY_5)
+						  MATRIX_KEY(2, 3, INPUT_KEY_D)>;
+				};
+			};
 		};
 
 		spi@2 {
