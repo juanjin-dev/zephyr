@@ -79,6 +79,84 @@
 	status = "okay";
 };
 
+&adc1_common {
+	clocks = <&rcc STM32_CLOCK(APB2, 9)>,
+		 <&rcc STM32_SRC_SYSCLK ADC_SEL(3)>;
+	clock-names = "adcx", "adc_ker";
+	st,adc-clock-source = "ASYNC";
+	st,adc-prescaler = <64>;
+	status = "okay";
+};
+
+/*
+ * The connector hands the analog inputs to PWM and to plain GPIO as well, so
+ * board.c muxes only the pins an installed module names.
+ */
+&adc1 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-0 = <>;
+	pinctrl-1 = <>;
+	pinctrl-names = "default", "sleep";
+	status = "okay";
+
+	channel@2 {
+		reg = <2>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_MAX>;
+		zephyr,resolution = <12>;
+	};
+
+	channel@3 {
+		reg = <3>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_MAX>;
+		zephyr,resolution = <12>;
+	};
+
+	channel@4 {
+		reg = <4>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_MAX>;
+		zephyr,resolution = <12>;
+	};
+
+	channel@b {
+		reg = <11>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_MAX>;
+		zephyr,resolution = <12>;
+	};
+};
+
+&timers1 {
+	st,prescaler = <47>;
+	status = "okay";
+
+	pwm1: pwm {
+		status = "okay";
+		pinctrl-0 = <>;
+		pinctrl-1 = <>;
+		pinctrl-names = "default", "sleep";
+	};
+};
+
+&timers2 {
+	st,prescaler = <47>;
+	status = "okay";
+
+	pwm2: pwm {
+		status = "okay";
+		pinctrl-0 = <>;
+		pinctrl-1 = <>;
+		pinctrl-names = "default", "sleep";
+	};
+};
+
 &iwdg {
 	status = "okay";
 };
@@ -115,3 +193,5 @@
 		};
 	};
 };
+
+#include "wisblock.dtsi"
