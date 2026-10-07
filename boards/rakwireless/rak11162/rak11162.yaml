@@ -1,5 +1,5 @@
-identifier: rak11160/stm32wle5xx
-name: RAK11160
+identifier: rak11162/stm32wle5xx
+name: RAK11162 WisBlock Core Module
 type: mcu
 arch: arm
 toolchain:
