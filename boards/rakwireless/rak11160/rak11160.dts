@@ -10,7 +10,7 @@
 
 / {
 	model = "RAKWireless RAK11160 WisDuo LPWAN Module";
-	compatible = "stm32,rak11160_stm32wl";
+	compatible = "rakwireless,rak11160";
 
 	chosen {
 		zephyr,console = &usart2;
