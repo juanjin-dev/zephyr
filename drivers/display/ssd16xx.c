@@ -899,6 +899,10 @@ static int ssd16xx_controller_init(const struct device *dev)
 	data->profile = SSD16XX_PROFILE_INVALID;
 
 	err = mipi_dbi_reset(config->mipi_dev, SSD16XX_RESET_DELAY);
+	if (err == -ENOTSUP || err == -ENOSYS) {
+		err = ssd16xx_write_cmd(dev, SSD16XX_CMD_SW_RESET, NULL, 0);
+	}
+
 	if (err < 0) {
 		return err;
 	}
