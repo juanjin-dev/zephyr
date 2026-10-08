@@ -1,0 +1,31 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright (c) 2026 RAKwireless Technology Limited
+ */
+
+#include "rakwireless_rak14000_common.dtsi"
+
+/ {
+	chosen {
+		zephyr,display = &ssd1680_rak14000;
+	};
+};
+
+&mipi_dbi_rak14000 {
+	ssd1680_rak14000: ssd1680@0 {
+		compatible = "solomon,ssd1680";
+		reg = <0>;
+		mipi-max-frequency = <4000000>;
+		width = <212>;
+		height = <104>;
+		busy-gpios = <&wisblock_io WISBLOCK_IO_IO4 GPIO_ACTIVE_HIGH>;
+
+		full {
+			border-waveform = <0x05>;
+		};
+
+		partial {
+			border-waveform = <0x3c>;
+		};
+	};
+};

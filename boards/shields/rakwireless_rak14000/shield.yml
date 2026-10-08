@@ -1,0 +1,12 @@
+shields:
+  - name: rakwireless_rak14000_wb
+    full_name: RAK14000 WisBlock E-Ink Display Module, white and black
+    vendor: rakwireless
+    supported_features:
+      - display
+
+  - name: rakwireless_rak14000_wbr
+    full_name: RAK14000 WisBlock E-Ink Display Module, white, black and red
+    vendor: rakwireless
+    supported_features:
+      - display

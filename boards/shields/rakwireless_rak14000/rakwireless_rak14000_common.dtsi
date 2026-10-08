@@ -1,0 +1,41 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright (c) 2026 RAKwireless Technology Limited
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/gpio/wisblock-io-slot.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	rak14000_keys: rak14000-keys {
+		compatible = "gpio-keys";
+
+		rak14000_sw1: button-0 {
+			gpios = <&wisblock_io WISBLOCK_IO_IO3 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_KEY_0>;
+		};
+
+		rak14000_sw2: button-1 {
+			gpios = <&wisblock_io WISBLOCK_IO_IO5 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_KEY_1>;
+		};
+
+		rak14000_sw3: button-2 {
+			gpios = <&wisblock_io WISBLOCK_IO_IO6 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			zephyr,code = <INPUT_KEY_2>;
+		};
+	};
+
+	mipi_dbi_rak14000: rak14000-mipi-dbi {
+		compatible = "zephyr,mipi-dbi-spi";
+		spi-dev = <&wisblock_spi>;
+		dc-gpios = <&wisblock_io WISBLOCK_IO_IO1 GPIO_ACTIVE_HIGH>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+};
+
+&wisblock_spi {
+	status = "okay";
+};
