@@ -1,0 +1,7 @@
+shield:
+  name: rakwireless_rak14014
+  full_name: RAK14014 WisBlock TFT LCD Display Module
+  vendor: rakwireless
+  supported_features:
+    - display
+    - input

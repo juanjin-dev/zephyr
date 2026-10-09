@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 RAKwireless Technology Limited
+
+if SHIELD_RAKWIRELESS_RAK14014
+
+config REGULATOR
+	default y if DISPLAY
+
+if GPIO_PCA95XX
+
+config GPIO_PCA95XX_INTERRUPT
+	default y
+
+endif # GPIO_PCA95XX
+
+if DISPLAY
+
+if LVGL
+
+config LV_Z_VDB_SIZE
+	default 16
+
+config LV_Z_DPI_DEF
+	default 166
+
+config INPUT
+	default y
+
+endif # LVGL
+
+endif # DISPLAY
+
+endif # SHIELD_RAKWIRELESS_RAK14014

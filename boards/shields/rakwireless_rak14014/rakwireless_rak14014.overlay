@@ -1,0 +1,118 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright (c) 2026 RAKwireless Technology Limited
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/gpio/wisblock-io-slot.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <zephyr/dt-bindings/mipi_dbi/mipi_dbi.h>
+#include <zephyr/dt-bindings/display/panel.h>
+
+/ {
+	chosen {
+		zephyr,display = &st7789v_rak14014;
+	};
+
+	rak14014_backlight: rak14014-backlight {
+		compatible = "regulator-fixed";
+		regulator-name = "rak14014-backlight";
+		enable-gpios = <&wisblock_io WISBLOCK_IO_IO3 GPIO_ACTIVE_HIGH>;
+		regulator-boot-on;
+	};
+
+	mipi_dbi_rak14014: rak14014-mipi-dbi {
+		compatible = "zephyr,mipi-dbi-spi";
+		spi-dev = <&wisblock_spi>;
+		dc-gpios = <&wisblock_io WISBLOCK_IO_IO4 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&wisblock_io WISBLOCK_IO_IO5 GPIO_ACTIVE_LOW>;
+		write-only;
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		st7789v_rak14014: st7789v@0 {
+			compatible = "sitronix,st7789v";
+			reg = <0>;
+			mipi-max-frequency = <20000000>;
+			mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
+			width = <240>;
+			height = <320>;
+			x-offset = <0>;
+			y-offset = <0>;
+			vcom = <0x19>;
+			gctrl = <0x35>;
+			vrhs = <0x12>;
+			vdvs = <0x20>;
+			mdac = <0x00>;
+			gamma = <0x01>;
+			lcm = <0x2c>;
+			pixel-format = <PANEL_PIXEL_FORMAT_RGB_565>;
+			porch-param = [0c 0c 00 33 33];
+			cmd2en-param = [5a 69 02 01];
+			pwctrl1-param = [a4 a1];
+			pvgam-param = [d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23];
+			nvgam-param = [d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23];
+			ram-param = [00 f0];
+			rgb-param = [cd 08 14];
+		};
+	};
+};
+
+&wisblock_spi {
+	status = "okay";
+};
+
+&wisblock_i2c1 {
+	status = "okay";
+
+	ft6336_rak14014: ft6336@38 {
+		compatible = "focaltech,ft5336";
+		reg = <0x38>;
+		int-gpios = <&wisblock_io WISBLOCK_IO_IO6 GPIO_ACTIVE_LOW>;
+	};
+
+	pca9555_rak14014: pca9555@20 {
+		compatible = "nxp,pca95xx";
+		reg = <0x20>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <16>;
+		interrupt-gpios = <&wisblock_io WISBLOCK_IO_IO6 GPIO_ACTIVE_LOW>;
+	};
+};
+
+/ {
+	rak14014-keys {
+		compatible = "gpio-keys";
+
+		rak14014_button1: button-0 {
+			gpios = <&pca9555_rak14014 0 GPIO_ACTIVE_LOW>;
+			zephyr,code = <INPUT_KEY_0>;
+		};
+
+		rak14014_button2: button-1 {
+			gpios = <&pca9555_rak14014 1 GPIO_ACTIVE_LOW>;
+			zephyr,code = <INPUT_KEY_1>;
+		};
+
+		rak14014_button3: button-2 {
+			gpios = <&pca9555_rak14014 2 GPIO_ACTIVE_LOW>;
+			zephyr,code = <INPUT_KEY_2>;
+		};
+
+		rak14014_button4: button-3 {
+			gpios = <&pca9555_rak14014 3 GPIO_ACTIVE_LOW>;
+			zephyr,code = <INPUT_KEY_3>;
+		};
+
+		rak14014_button5: button-4 {
+			gpios = <&pca9555_rak14014 4 GPIO_ACTIVE_LOW>;
+			zephyr,code = <INPUT_KEY_4>;
+		};
+
+		rak14014_button6: button-5 {
+			gpios = <&pca9555_rak14014 5 GPIO_ACTIVE_LOW>;
+			zephyr,code = <INPUT_KEY_5>;
+		};
+	};
+};
