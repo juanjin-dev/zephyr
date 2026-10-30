@@ -17,3 +17,12 @@ tests:
       - native_sim
     extra_configs:
       - CONFIG_LORAWAN_REGION_KR920=y
+  subsys.lorawan.native_region.us915:
+    tags:
+      - lorawan
+    platform_allow:
+      - native_sim
+    integration_platforms:
+      - native_sim
+    extra_configs:
+      - CONFIG_LORAWAN_REGION_US915=y
