@@ -124,7 +124,8 @@ Libraries / Subsystems
 * LoRaWAN
 
   * The native backend now supports the AS923 region
-    (:kconfig:option:`CONFIG_LORAWAN_REGION_AS923`).
+    (:kconfig:option:`CONFIG_LORAWAN_REGION_AS923`) and the US915 region
+    (:kconfig:option:`CONFIG_LORAWAN_REGION_US915`).
 
 Other notable changes
 *********************
