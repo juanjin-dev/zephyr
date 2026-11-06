@@ -16,6 +16,14 @@ config LORAWAN_NATIVE_DUTY_CYCLE
 	  Disable this option for testing or when duty cycle
 	  enforcement is handled externally.
 
+config LORAWAN_NATIVE_FIXED_PLAN
+	bool
+	default y if LORAWAN_REGION_US915
+	help
+	  Selected by the regions RP002-1.0.5 2.2.2 calls fixed channel plan
+	  regions, which lay their channels out by formula and share the
+	  helpers in fixed_plan.c.
+
 config LORAWAN_NATIVE_MAX_CHANNELS
 	int
 	default 72 if LORAWAN_REGION_US915
