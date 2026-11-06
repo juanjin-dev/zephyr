@@ -24,7 +24,6 @@ config LORAWAN_REGION_AS923
 
 config LORAWAN_REGION_AU915
 	bool "Australia 915MHz Frequency band"
-	depends on !LORA_MODULE_BACKEND_NATIVE
 
 config LORAWAN_REGION_CN470
 	bool "China 470MHz Frequency band"

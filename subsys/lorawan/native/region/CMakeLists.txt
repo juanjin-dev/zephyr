@@ -3,6 +3,7 @@
 zephyr_library_sources(region.c)
 zephyr_library_sources_ifdef(CONFIG_LORAWAN_NATIVE_FIXED_PLAN fixed_plan.c)
 zephyr_library_sources_ifdef(CONFIG_LORAWAN_REGION_AS923 region_as923.c)
+zephyr_library_sources_ifdef(CONFIG_LORAWAN_REGION_AU915 region_au915.c)
 zephyr_library_sources_ifdef(CONFIG_LORAWAN_REGION_EU868 region_eu868.c)
 zephyr_library_sources_ifdef(CONFIG_LORAWAN_REGION_KR920 region_kr920.c)
 zephyr_library_sources_ifdef(CONFIG_LORAWAN_REGION_US915 region_us915.c)

@@ -74,6 +74,16 @@ struct lwan_region_ops {
 	int8_t max_eirp_dbm;
 
 	/**
+	 * @brief Uplink dwell time limit the region boots under.
+	 *
+	 * A band whose regulator caps how long a device may hold the channel
+	 * tells the device to assume the cap is in force from boot until a
+	 * TxParamSetupReq says otherwise. Leaving the field out means no cap,
+	 * which is what the bands without one want.
+	 */
+	bool default_ul_dwell_time;
+
+	/**
 	 * @brief Get the default channels for this region.
 	 *
 	 * @param ch Output channel array.

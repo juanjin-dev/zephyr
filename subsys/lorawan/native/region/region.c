@@ -9,6 +9,9 @@
 #ifdef CONFIG_LORAWAN_REGION_AS923
 extern const struct lwan_region_ops as923_ops;
 #endif
+#ifdef CONFIG_LORAWAN_REGION_AU915
+extern const struct lwan_region_ops au915_ops;
+#endif
 #ifdef CONFIG_LORAWAN_REGION_EU868
 extern const struct lwan_region_ops eu868_ops;
 #endif
@@ -26,6 +29,10 @@ const struct lwan_region_ops *lwan_region_get(enum lorawan_region region)
 #ifdef CONFIG_LORAWAN_REGION_AS923
 	case LORAWAN_REGION_AS923:
 		return &as923_ops;
+#endif
+#ifdef CONFIG_LORAWAN_REGION_AU915
+	case LORAWAN_REGION_AU915:
+		return &au915_ops;
 #endif
 #ifdef CONFIG_LORAWAN_REGION_EU868
 	case LORAWAN_REGION_EU868:

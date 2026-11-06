@@ -57,6 +57,7 @@ static void lwan_region_select(const struct lwan_region_ops *ops)
 
 	lwan_ctx.region = ops;
 	lwan_ctx.session.rx2_datarate = ops->default_rx2_dr;
+	lwan_ctx.mac.ul_dwell_time = ops->default_ul_dwell_time;
 	lwan_ctx.current_dr = lwan_region_min_dr(&lwan_ctx);
 }
 

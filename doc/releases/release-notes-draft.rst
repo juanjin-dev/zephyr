@@ -81,10 +81,11 @@ Libraries / Subsystems
 
 * LoRaWAN
 
-  * The native backend now supports the KR920, AS923 and US915 regions
-    (:kconfig:option:`CONFIG_LORAWAN_REGION_KR920`,
+  * The native backend now supports the KR920, AS923, US915 and AU915
+    regions (:kconfig:option:`CONFIG_LORAWAN_REGION_KR920`,
     :kconfig:option:`CONFIG_LORAWAN_REGION_AS923`,
-    :kconfig:option:`CONFIG_LORAWAN_REGION_US915`).
+    :kconfig:option:`CONFIG_LORAWAN_REGION_US915`,
+    :kconfig:option:`CONFIG_LORAWAN_REGION_AU915`).
 
 * Mbed TLS
 
