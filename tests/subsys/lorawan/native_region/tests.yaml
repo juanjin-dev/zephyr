@@ -10,6 +10,9 @@ tests:
   subsys.lorawan.native_region.as923:
     extra_configs:
       - CONFIG_LORAWAN_REGION_AS923=y
+  subsys.lorawan.native_region.au915:
+    extra_configs:
+      - CONFIG_LORAWAN_REGION_AU915=y
   subsys.lorawan.native_region.kr920:
     extra_configs:
       - CONFIG_LORAWAN_REGION_KR920=y

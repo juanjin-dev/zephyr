@@ -6,6 +6,7 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(lorawan_native_region)
 
 target_sources_ifdef(CONFIG_LORAWAN_REGION_AS923 app PRIVATE src/as923.c)
+target_sources_ifdef(CONFIG_LORAWAN_REGION_AU915 app PRIVATE src/au915.c)
 target_sources_ifdef(CONFIG_LORAWAN_REGION_KR920 app PRIVATE src/kr920.c)
 target_sources_ifdef(CONFIG_LORAWAN_REGION_US915 app PRIVATE src/us915.c)
 
